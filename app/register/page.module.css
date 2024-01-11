@@ -1,0 +1,41 @@
+main
+{
+    display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100vh;
+}
+
+.title
+{
+    text-align: center;
+    margin-top: -5%;
+}
+
+.loginBox
+{
+    width: 40%;
+    background-color: #01331257;
+    border-radius: 10px;
+    border: solid 1px #0080005c;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.buttonBox
+{
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 800px)
+{
+    .loginBox
+    {
+        width: 80%;
+    }
+}
