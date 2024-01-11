@@ -1,43 +1,51 @@
 "use server";
-import { returnUserPassHash } from "./mongoManager";
+import { checkIfUserExistsOnRegister, registerUser, returnUserPassHash } from "./mongoManager";
+import { RegisterResponse, ErrorType } from "../interfaces/authInterfaces";
 var bcrypt = require('bcryptjs')
 
-export async function login(username: string, password: string):Promise<boolean>
-{
-    // Get the hashed password from the user
-    await returnUserPassHash(username).then(async (hash:string) => {
-        // Compare the password with the hash
-        await bcrypt.compare(password, hash).then((res:boolean) => {
-            if(res === true)
-            {
-                console.log("User is logged in");
-                // User is logged in
+export async function login(username: string, password: string): Promise<boolean> {
+    try {
+        const hash = await returnUserPassHash(username);
+        const res = await bcrypt.compare(password, hash);
+        
+        if (res === true) {
+            console.log("User is logged in");
+            // User is logged in
 
-                // Create user token somehow
-                return true;
-            }
-            else
-            {
-                console.log("User is not logged in");
-                // User is not logged in
-                return false;
-            }
-        });
-    });
-    return false;
+            // Create user token somehow
+            return true;
+        } else {
+            console.log("User is not logged in");
+            // User is not logged in
+            return false;
+        }
+    } catch (error) {
+        console.error("An error occurred:", error);
+        return false;
+    }
 }
 
-export async function register(email:string, username: string, password: string) 
+export async function register(email:string, username: string, password: string): Promise<RegisterResponse>
 {
-    var salt = bcrypt.genSaltSync(10);
-    bcrypt.hash(password, 10, function(err:any, hash:string) 
-    {
-        console.warn(hash);
-        // Register the user with the hashed password
-
-        // Generate a token for the user
+    // Emails are not case sensitive
+    email = email.toLowerCase();
+    if (password.length < 4) { return { isSuccessful:false } };
+    try {
+        // Check if user exists
+        const errorCheck = await checkIfUserExistsOnRegister(email, username);
         
-        // Return true/false based on the result and also 
-        // return an error if there is one
-    });
+        if (errorCheck.emailExists || errorCheck.usernameExists) {
+            return { isSuccessful: false, errorType: errorCheck };
+        }
+
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+        
+        var result = await registerUser(email, username, hash);
+
+        return { isSuccessful: result };
+    } catch (error) {
+        console.error("An error occurred:", error);
+        return { isSuccessful: false, errorType: { emailExists: false, usernameExists: false }};
+    }
 }

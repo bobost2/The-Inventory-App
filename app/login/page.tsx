@@ -11,6 +11,7 @@ export default function LoginPage()
 {
     const [loginFailed, setLoginFailed] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
         username = event.target.value;
@@ -24,15 +25,25 @@ export default function LoginPage()
     {
         // Prevent page from reloading
         event.preventDefault();
-        setIsLoggingIn(true);
-        setLoginFailed(false);
 
-        // Authentication logic - Bug: Result is always false
-        login(username, password).then((result) => {
-            setIsLoggingIn(false);
-            setLoginFailed(!result);
-            console.log(result);
-        });
+        // Check if user is already logging in
+        if(!isLoggingIn)
+        {
+            setIsLoggingIn(true);
+            setLoginFailed(false);
+            setErrorMessage("");
+    
+            // Authentication logic
+            login(username, password).then((result) => {
+                setIsLoggingIn(false);
+                setLoginFailed(!result);
+                
+                if(!result)
+                {
+                    setErrorMessage("Invalid username or password!");
+                }
+            });
+        }
     }
     
     return (
@@ -41,8 +52,8 @@ export default function LoginPage()
             <form className={styles.loginBox} onSubmit={handleSubmit}>
                 <TextField required id="username-field" label="Username" error={loginFailed}
                     onChange={handleUsernameChange} variant="outlined" />
-                <TextField style={{margin: '10px 0px'}} required id="password-field" error={loginFailed}
-                    onChange={handlePasswordChange} label="Password" variant="outlined" type="password" />
+                <TextField style={{margin: '10px 0px'}} required id="password-field" error={loginFailed} 
+                    helperText={errorMessage} onChange={handlePasswordChange} label="Password" variant="outlined" type="password" />
                 <div className={styles.buttonBox}>
                     <Button style={{width: "40%"}} color='success' id="login-button" disabled={isLoggingIn}
                         variant="contained" type="submit">Login</Button>
