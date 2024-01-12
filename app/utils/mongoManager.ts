@@ -1,6 +1,6 @@
 "use server";
-import { MongoClient } from "mongodb";
-import { ErrorType } from "../interfaces/authInterfaces";
+import { InsertOneResult, MongoClient, ObjectId } from "mongodb";
+import { ErrorType, UserLoginDBRepsonse } from "../interfaces/authInterfaces";
 
 export async function checkIfUserExistsOnRegister(email:string, username:string) : Promise<ErrorType>
 {
@@ -28,7 +28,7 @@ export async function checkIfUserExistsOnRegister(email:string, username:string)
     return errorType;
 }
 
-export async function registerUser(email:string, username:string, password:string):Promise<boolean>
+export async function registerUser(email:string, username:string, password:string):Promise<InsertOneResult>
 {
     var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
     const client = new MongoClient(connectionString);
@@ -38,17 +38,16 @@ export async function registerUser(email:string, username:string, password:strin
     try {
         const user = { email: email, username: username, password: password };
         const result = await users.insertOne(user);
-
-        return result.acknowledged;
+        return result;
     } catch (e) {
         console.error(e);
-        return false;
+        return { acknowledged: false, insertedId: new ObjectId() };
     } finally {
         await client.close();
     }
 }
 
-export async function returnUserPassHash(username:string):Promise<string>
+export async function returnUserPassHash(username:string):Promise<UserLoginDBRepsonse>
 {
     var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
     const client = new MongoClient(connectionString);
@@ -60,9 +59,9 @@ export async function returnUserPassHash(username:string):Promise<string>
     
     const user = await users.findOne(query);
     if (user) {
-        return user.password;
+        return { hashedPassword: user.password, _id: user._id };
     }
 
     await client.close();
-    return "";
+    return { hashedPassword: "", _id: new ObjectId() };
 }

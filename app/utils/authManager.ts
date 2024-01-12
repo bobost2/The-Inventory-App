@@ -1,27 +1,31 @@
 "use server";
 import { checkIfUserExistsOnRegister, registerUser, returnUserPassHash } from "./mongoManager";
-import { RegisterResponse, ErrorType } from "../interfaces/authInterfaces";
+import { RegisterResponse, ErrorType, LoginResponse } from "../interfaces/authInterfaces";
+import jwt from 'jsonwebtoken';
 var bcrypt = require('bcryptjs')
 
-export async function login(username: string, password: string): Promise<boolean> {
+export async function login(username: string, password: string): Promise<LoginResponse> {
     try {
-        const hash = await returnUserPassHash(username);
-        const res = await bcrypt.compare(password, hash);
+        const response = await returnUserPassHash(username);
+        const res = await bcrypt.compare(password, response.hashedPassword);
         
         if (res === true) {
-            console.log("User is logged in");
-            // User is logged in
-
-            // Create user token somehow
-            return true;
+            // Credentials are correct, create token and return it
+            const jwt_secret:string = process.env.JWT_SECRET || "";
+            if (jwt_secret == "") 
+            { 
+                console.error("JWT_SECRET is not set");
+                return { isSuccessful: false };
+            }
+            const token = jwt.sign({ _id: response._id, username: username }, jwt_secret, { expiresIn: '6h' });
+            return { isSuccessful: true, token: token };
         } else {
-            console.log("User is not logged in");
-            // User is not logged in
-            return false;
+            // Credentials are incorrect
+            return { isSuccessful: false };
         }
     } catch (error) {
         console.error("An error occurred:", error);
-        return false;
+        return { isSuccessful: false };
     }
 }
 
@@ -43,7 +47,20 @@ export async function register(email:string, username: string, password: string)
         
         var result = await registerUser(email, username, hash);
 
-        return { isSuccessful: result };
+        if (result.acknowledged) 
+        {
+            // Credentials are correct, create token and return it
+            const jwt_secret:string = process.env.JWT_SECRET || "";
+            if (jwt_secret == "") 
+            { 
+                console.error("JWT_SECRET is not set");
+                return { isSuccessful: false };
+            }
+            const token = jwt.sign({ _id: result.insertedId, username: username }, jwt_secret, { expiresIn: '6h' });
+            return { isSuccessful: true, token: token };
+        }
+
+        return { isSuccessful: false };
     } catch (error) {
         console.error("An error occurred:", error);
         return { isSuccessful: false, errorType: { emailExists: false, usernameExists: false }};

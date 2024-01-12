@@ -36,11 +36,16 @@ export default function LoginPage()
             // Authentication logic
             login(username, password).then((result) => {
                 setIsLoggingIn(false);
-                setLoginFailed(!result);
+                setLoginFailed(!result.isSuccessful);
                 
-                if(!result)
+                if(!result.isSuccessful)
                 {
                     setErrorMessage("Invalid username or password!");
+                }
+
+                if (result.token)
+                {
+                    localStorage.setItem("token", result.token);
                 }
             });
         }

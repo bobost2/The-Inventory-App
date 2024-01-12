@@ -36,11 +36,14 @@ export default function RegisterPage() {
             setIsLoggingIn(true);
     
             // Authentication logic
-            register(email, username, password).then((result: RegisterResponse) => {
-                console.log(result);
+            register(email, username, password).then((result: RegisterResponse) => 
+            {
                 if(result.isSuccessful)
                 {
-                    // do stuff
+                    if (result.token)
+                    {
+                        localStorage.setItem("token", result.token);
+                    }
                 }
                 else
                 {
