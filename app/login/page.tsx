@@ -1,14 +1,16 @@
 'use client';
 import { Button, TextField } from '@mui/material'
-import { login } from '@/app/utils/authManager';
 import styles from './page.module.css'
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 var username: string = '';
 var password: string = '';
 
 export default function LoginPage() 
 {
+    const router = useRouter();
     const [loginFailed, setLoginFailed] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +23,7 @@ export default function LoginPage()
         password = event.target.value;
     }
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) 
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) 
     {
         // Prevent page from reloading
         event.preventDefault();
@@ -34,20 +36,24 @@ export default function LoginPage()
             setErrorMessage("");
     
             // Authentication logic
-            login(username, password).then((result) => {
-                setIsLoggingIn(false);
-                setLoginFailed(!result.isSuccessful);
-                
-                if(!result.isSuccessful)
-                {
-                    setErrorMessage("Invalid username or password!");
-                }
-
-                if (result.token)
-                {
-                    localStorage.setItem("token", result.token);
-                }
+            const res = await signIn("credentials", {
+                username,
+                password,
+                redirect: false,
             });
+
+            setIsLoggingIn(false);
+            if (res && !res.error) 
+            {
+                setLoginFailed(false);
+                setErrorMessage("");
+                router.replace("dashboard");
+            }
+            else
+            {
+                setLoginFailed(true);
+                setErrorMessage("Invalid username or password!");
+            }
         }
     }
     

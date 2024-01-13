@@ -4,12 +4,16 @@ import styles from './page.module.css'
 import { register } from '../utils/authManager';
 import { RegisterResponse, ErrorType } from '../interfaces/authInterfaces';
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 var username: string = '';
 var email: string = '';
 var password: string = '';
 
-export default function RegisterPage() {
+export default function RegisterPage() 
+{
+    const router = useRouter();
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [errorType, setErrorType] = useState<ErrorType>();
     
@@ -25,7 +29,7 @@ export default function RegisterPage() {
         password = event.target.value;
     }
     
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) 
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) 
     {
         // Prevent page from reloading
         event.preventDefault();
@@ -36,21 +40,32 @@ export default function RegisterPage() {
             setIsLoggingIn(true);
     
             // Authentication logic
-            register(email, username, password).then((result: RegisterResponse) => 
+            const result = await register(email, username, password);
+            
+            if(result.isSuccessful)
             {
-                if(result.isSuccessful)
+                // After registering, try to log in with the same credentials
+                const res = await signIn("credentials", {
+                    username,
+                    password,
+                    redirect: false,
+                });
+                setIsLoggingIn(false);
+
+                if (res && !res.error) 
                 {
-                    if (result.token)
-                    {
-                        localStorage.setItem("token", result.token);
-                    }
+                    router.replace("dashboard");
                 }
                 else
                 {
-                    setErrorType(result.errorType);
+                    console.error("Login failed!");
                 }
+            }
+            else
+            {
+                setErrorType(result.errorType);
                 setIsLoggingIn(false);
-            });
+            }
         }
     }
 

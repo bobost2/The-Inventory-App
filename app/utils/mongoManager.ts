@@ -47,7 +47,7 @@ export async function registerUser(email:string, username:string, password:strin
     }
 }
 
-export async function returnUserPassHash(username:string):Promise<UserLoginDBRepsonse>
+export async function returnUserByLogin(username:string):Promise<UserLoginDBRepsonse>
 {
     var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
     const client = new MongoClient(connectionString);
