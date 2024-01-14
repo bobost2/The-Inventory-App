@@ -1,0 +1,59 @@
+.dialogBG
+{
+    color: #c2ffaf;
+    background: #051c00 ;
+    border: 2px solid #003913;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dialogTitleBox
+{
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid #003913;
+    background: #003913;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialogCreateJoinContents
+{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.dialogCreateJoinOptions
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dialogCreateJoinSeparator
+{
+    width: 2px;
+    background: #003913;
+    height: 14rem;
+}
+
+.dialogCreateJoinInputContents
+{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.dialogCreateJoinInputButtonBox
+{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
