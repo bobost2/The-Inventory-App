@@ -66,10 +66,10 @@ export default function LoginPage()
                 <TextField style={{margin: '10px 0px'}} required id="password-field" error={loginFailed} 
                     helperText={errorMessage} onChange={handlePasswordChange} label="Password" variant="outlined" type="password" />
                 <div className={styles.buttonBox}>
-                    <Button style={{width: "40%"}} color='success' id="login-button" disabled={isLoggingIn}
-                        variant="contained" type="submit">Login</Button>
                     <Button style={{width: "40%"}} color='success' href='/'
                         id='goback-button' variant="contained">Go Back</Button>
+                    <Button style={{width: "40%"}} color='success' id="login-button" disabled={isLoggingIn}
+                        variant="contained" type="submit">Login</Button>
                 </div>
             </form>
         </main>

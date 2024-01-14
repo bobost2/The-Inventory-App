@@ -82,10 +82,10 @@ export default function RegisterPage()
                 <TextField style={{margin: '10px 0px'}} required id="password-field" 
                     onChange={handlePasswordChange} label="Password" variant="outlined" type="password" />
                 <div className={styles.buttonBox}>
-                    <Button style={{width: "40%"}} color='success' id='register-button'
-                        disabled={isLoggingIn} variant="contained" type="submit">Register</Button>
                     <Button style={{width: "40%"}} color='success' href='/'
                         id='goback-button' variant="contained">Go Back</Button>
+                    <Button style={{width: "40%"}} color='success' id='register-button'
+                        disabled={isLoggingIn} variant="contained" type="submit">Register</Button>
                 </div>
             </form>
         </main>
