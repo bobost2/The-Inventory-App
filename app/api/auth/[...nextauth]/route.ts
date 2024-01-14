@@ -18,7 +18,8 @@ const handler = NextAuth({
 
                     if (res === true) 
                     {
-                        const user:User = { name: username, id: dbRes._id.toString() };
+                        // We store the id in the image, because the id parameter is not being used by the session
+                        const user:User = { name: username, id: dbRes._id.toString(), image: dbRes._id.toString() };
                         return user;
                     }
                     else
