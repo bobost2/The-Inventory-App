@@ -28,20 +28,29 @@ const handler = NextAuth({
                 } 
                 catch (error) 
                 {
-                  console.log("Error: ", error);
-                  return null;
+                    console.log("Error: ", error);
+                    return null;
                 }
             },
         }),
-  ],
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login",
-    signOut: "/",
-  },
+    ],
+    session: {
+        strategy: "jwt",
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/login",
+        signOut: "/",
+    },
+    // callbacks:
+    // {
+    //     redirect: async ({ url, baseUrl }) => {
+    //         console.log(`${baseUrl} ${url}`);
+    //         return url.startsWith(baseUrl)
+    //           ? url
+    //           : baseUrl
+    //       }
+    // }
 });
 
 export { handler as GET, handler as POST }

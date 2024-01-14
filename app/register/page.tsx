@@ -54,7 +54,7 @@ export default function RegisterPage()
 
                 if (res && !res.error) 
                 {
-                    router.replace("dashboard");
+                    router.push("dashboard");
                 }
                 else
                 {
@@ -70,7 +70,7 @@ export default function RegisterPage()
     }
 
     return (
-        <main>
+        <main className={styles.RegisterPage}>
             <h1 className={styles.title}>Register page</h1>
             <form className={styles.loginBox} onSubmit={handleSubmit}>
                 <TextField required id="email-field" label="Email" type="email" 

@@ -59,6 +59,7 @@ export async function returnUserByLogin(username:string):Promise<UserLoginDBReps
     
     const user = await users.findOne(query);
     if (user) {
+        await client.close();
         return { hashedPassword: user.password, _id: user._id };
     }
 

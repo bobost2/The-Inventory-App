@@ -47,7 +47,7 @@ export default function LoginPage()
             {
                 setLoginFailed(false);
                 setErrorMessage("");
-                router.replace("dashboard");
+                router.push("dashboard");
             }
             else
             {
@@ -58,7 +58,7 @@ export default function LoginPage()
     }
     
     return (
-        <main>
+        <main className={styles.LoginPage}>
             <h1 className={styles.title}>Login page</h1>
             <form className={styles.loginBox} onSubmit={handleSubmit}>
                 <TextField required id="username-field" label="Username" error={loginFailed}
