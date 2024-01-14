@@ -96,7 +96,7 @@ export default function NavBarComponent()
     return (
         <div>
             <nav className={styles.navbar}>
-                <div className={styles.logo} onClick={()=>router.push("dashboard")}>
+                <div className={styles.logo} onClick={()=>router.push(`/dashboard`)}>
                     <InventoryIcon className={styles.inventoryIcon} style={{fontSize: '30px'}} />
                     <h1 className={styles.navTitle}>The Inventory App</h1>
                 </div>

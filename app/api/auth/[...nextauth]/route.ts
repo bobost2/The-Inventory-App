@@ -43,15 +43,6 @@ const handler = NextAuth({
         signIn: "/login",
         signOut: "/",
     },
-    // callbacks:
-    // {
-    //     redirect: async ({ url, baseUrl }) => {
-    //         console.log(`${baseUrl} ${url}`);
-    //         return url.startsWith(baseUrl)
-    //           ? url
-    //           : baseUrl
-    //       }
-    // }
 });
 
 export { handler as GET, handler as POST }
