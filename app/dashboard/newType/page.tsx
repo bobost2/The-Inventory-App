@@ -1,14 +1,31 @@
 "use client";
-import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Alert, Button, IconButton, Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import styles from './page.module.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import NewFieldComponent, { FieldObject } from './components/newFieldComponent';
 import { useState } from 'react';
+import React from 'react';
+import { createNewType } from '@/app/utils/inventoryManager';
+import Router from 'next/navigation';
 
 export default function NewTypePage() 
 {
+    const router = Router.useRouter();
+
+    const [disableCreateButton, setDisableCreateButton] = useState<boolean>(false);
     const [fields, setFields] = useState<FieldObject[]>([]);
     const [typeName, setTypeName] = useState<string>("");
+
+    const [openAlert, setOpenAlert] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState('');
+
+    const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpenAlert(false);
+    };
 
     function handleTypeNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setTypeName(event.target.value);
@@ -26,8 +43,9 @@ export default function NewTypePage()
         });
     }
 
-    function validateFieldsAndSend() {
+    async function validateFieldsAndSend() {
         var validCheck = true;
+        setDisableCreateButton(true);
         
         if (typeName === "") {
             validCheck = false;
@@ -38,8 +56,28 @@ export default function NewTypePage()
                 validCheck = false;
             }
         }
-        console.log(validCheck);
-        console.log(fields);
+
+        const teamID = localStorage.getItem("currentTeamID");
+        
+        if (validCheck && teamID && teamID?.length !== 0)
+        {
+            const createdNewType = await createNewType(teamID, typeName, fields)
+            if (createdNewType)
+            {
+                router.push("/dashboard");
+            }
+            else
+            {
+                setAlertMessage("Internal server error! Please try again later...");
+                setOpenAlert(true);
+            }
+        }
+        else
+        {
+            setAlertMessage("Please fill all of the fields!");
+            setOpenAlert(true);
+        }
+        setDisableCreateButton(false);
     }
     
     return (
@@ -83,10 +121,18 @@ export default function NewTypePage()
                 <Button variant="contained" color="success" href="/dashboard">
                     Go back
                 </Button>
-                <Button variant="contained" color="success" onClick={validateFieldsAndSend}>
+                <Button variant="contained" color="success" onClick={validateFieldsAndSend} disabled={disableCreateButton}>
                     Create
                 </Button>
             </div>
+
+            <Snackbar open={openAlert} autoHideDuration={4000} onClose={handleCloseAlert} 
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </main>
     );
 }

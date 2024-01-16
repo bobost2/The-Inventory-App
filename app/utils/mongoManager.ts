@@ -2,6 +2,7 @@
 import { InsertOneResult, MongoClient, ObjectId } from "mongodb";
 import { ErrorType, UserLoginDBRepsonse } from "../interfaces/authInterfaces";
 import { teamDetails } from "../interfaces/teamInterfaces";
+import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
 
 export async function checkIfUserExistsOnRegister(email:string, username:string) : Promise<ErrorType>
 {
@@ -163,4 +164,39 @@ export async function joinTeamDB(teamID:string, userID:ObjectId):Promise<boolean
 
     await client.close();
     return result;
+}
+
+export async function verifyUserID(userID:ObjectId):Promise<boolean>
+{
+    var result:boolean = false;
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const users = database.collection("users");
+
+    const user = await users.findOne({ _id: userID });
+    
+    if(user)
+    {
+        result = true;
+    }
+
+    await client.close();
+    return result;
+}
+
+export async function createNewTypeDB(teamID:string, typeName:string, fields:FieldObject[]):Promise<boolean>
+{
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const types = database.collection("types");
+
+    const type = { name: typeName, teamID: new ObjectId(teamID), fields: fields };
+    const typeRes = await types.insertOne(type);
+
+    await client.close();
+    return typeRes.acknowledged;
 }
