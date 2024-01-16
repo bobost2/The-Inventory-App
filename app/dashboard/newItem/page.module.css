@@ -1,0 +1,95 @@
+.NewItemPage
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: calc(100vh - 60px);
+}
+
+.EnterTypeName
+{
+    width: 100%;
+    padding: 0px 25px 25px 25px;
+    background: #0f2b0f;
+    box-shadow: 0px 3px 3px 2px #0000004f;
+    border-top: 3px solid #0000002e; 
+    /* I didn't had the nerves to adjust the z-index, so the navbar shadow is hidden.
+    Thats why there is a border top (to emulate the shadow). */
+}
+
+.MainFields
+{
+    width: 200px;
+}
+
+.DescField
+{
+    width: 420px;
+}
+
+.TitleCell
+{
+    font-weight: 800;
+    color: #003913;
+}
+
+.TableAddButton
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.BottomButtonBox
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003913;
+    box-shadow: 0px -3px 3px 2px #0000004f;
+    padding: 10px;
+}
+
+.typeTable
+{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+@media (max-width: 500px)
+{
+    .MainFields
+    {
+        width: 100px;
+    }
+
+    .DescField
+    {
+        width: 220px;
+    }
+}
+
+::-webkit-scrollbar
+{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track
+{
+    background: #0f2b0f;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: #003913;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: #003613;
+}

@@ -3,6 +3,8 @@ import { InsertOneResult, MongoClient, ObjectId } from "mongodb";
 import { ErrorType, UserLoginDBRepsonse } from "../interfaces/authInterfaces";
 import { teamDetails } from "../interfaces/teamInterfaces";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
+import { FieldDropDown, ItemObject } from "../dashboard/newItem/page";
+import exp from "constants";
 
 export async function checkIfUserExistsOnRegister(email:string, username:string) : Promise<ErrorType>
 {
@@ -199,4 +201,38 @@ export async function createNewTypeDB(teamID:string, typeName:string, fields:Fie
 
     await client.close();
     return typeRes.acknowledged;
+}
+
+export async function returnTypesDB(teamID:string):Promise<FieldDropDown[]>
+{
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const types = database.collection("types");
+
+    const typesRes = await types.find({ teamID: new ObjectId(teamID) }).toArray();
+
+    var typesArr:FieldDropDown[] = [];
+    typesRes.forEach(element => {
+        typesArr.push({ typeID: element._id.toString(), typeName: element.name, fields: element.fields });
+    });
+
+    await client.close();
+    return typesArr;
+}
+
+export async function createNewItemDB(item:ItemObject):Promise<boolean>
+{
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const items = database.collection("items");
+
+    item.teamID = new ObjectId(item.teamID);
+    const itemRes = await items.insertOne(item);
+
+    await client.close();
+    return itemRes.acknowledged;
 }

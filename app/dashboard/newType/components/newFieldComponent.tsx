@@ -1,6 +1,5 @@
 import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TableCell, TableRow, TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import styles from "../newFieldComponent.module.css";
 import React from "react";
 
 export type FieldObject = {

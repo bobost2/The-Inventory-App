@@ -3,7 +3,8 @@
 import { getServerSession } from "next-auth";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
 import { ObjectId } from "mongodb";
-import { createNewTypeDB, verifyUserID } from "./mongoManager";
+import { createNewItemDB, createNewTypeDB, returnTypesDB, verifyUserID } from "./mongoManager";
+import { FieldDropDown, ItemObject } from "../dashboard/newItem/page";
 
 export async function createNewType(teamID:string, fieldName:string, fields:FieldObject[]):Promise<boolean>
 {
@@ -20,5 +21,25 @@ export async function createNewType(teamID:string, fieldName:string, fields:Fiel
         }
     }
 
+    return success;
+}
+
+export async function returnTypes(teamID:string):Promise<FieldDropDown[]>
+{
+    var types:FieldDropDown[] = [];
+    if(ObjectId.isValid(teamID))
+    {
+        types = await returnTypesDB(teamID);
+    }
+    return types;
+}
+
+export async function createNewItem(item:ItemObject):Promise<boolean>
+{
+    var success = false;
+    if(ObjectId.isValid(item.teamID))
+    {
+        success = await createNewItemDB(item);
+    }
     return success;
 }

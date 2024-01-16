@@ -1,0 +1,13 @@
+.FieldName
+{
+    color: #c2ffaf;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.TwoFields
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
