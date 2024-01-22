@@ -62,7 +62,7 @@
     align-items: center;
 }
 
-.iconParameter > div,h3
+.iconParameter > div, .iconParameter > h3
 {
     margin-left: 10px;
 }
@@ -71,11 +71,6 @@
 {
     display: flex;
     align-items: center;
-}
-
-.iconParameter > div, .iconParameter > h3
-{
-    margin-left: 10px;
 }
 
 .clickableParam
