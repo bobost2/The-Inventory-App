@@ -6,11 +6,11 @@ import NewFieldComponent, { FieldObject } from './components/newFieldComponent';
 import { useState } from 'react';
 import React from 'react';
 import { createNewType } from '@/app/utils/inventoryManager';
-import Router from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function NewTypePage() 
 {
-    const router = Router.useRouter();
+    const router = useRouter();
 
     const [disableCreateButton, setDisableCreateButton] = useState<boolean>(false);
     const [fields, setFields] = useState<FieldObject[]>([]);

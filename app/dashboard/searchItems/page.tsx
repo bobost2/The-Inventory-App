@@ -5,13 +5,12 @@ import styles from './page.module.css';
 import React, { useEffect, useState } from 'react';
 import { FieldDropDown } from '../components/AddEditItem';
 import { returnItems, returnTypes } from '@/app/utils/inventoryManager';
-import Router from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 
 export default function SearchItemsPage() {
     
-    const router = Router.useRouter();
-
+    const router = useRouter();
     const [filterByType, setFilterByType] = useState(false);
     const [itemType, setItemType] = useState<string>("");
     const [fieldsData, setFieldsData] = useState<FieldDropDown[]>([]);

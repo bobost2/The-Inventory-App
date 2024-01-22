@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { FieldObject } from '../newType/components/newFieldComponent';
 import { createNewItem, editItem, returnTypes } from '@/app/utils/inventoryManager';
 import ExistingFieldComponent from './existingFieldComponent';
-import Router from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ObjectId } from 'mongodb';
 
 export type FieldDropDown = {
@@ -77,7 +77,7 @@ export default function AddEditItemComponent(props: AddEditProps)
         }
     }
 
-    const router = Router.useRouter();
+    const router = useRouter();
 
     async function applyItemProps()
     {

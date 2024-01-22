@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import { deleteItem, returnItem } from "@/app/utils/inventoryManager";
 import { useEffect, useState } from "react";
-import Router from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FieldObjectValue, ItemObject } from "../../components/AddEditItem";
 import { Button, Chip, CircularProgress, Divider } from "@mui/material";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
@@ -23,7 +23,7 @@ import dayjs from "dayjs";
 
 export default function ViewItemPage({params}: any) {
     
-    const router = Router.useRouter();
+    const router = useRouter();
     const [item, setItem] = useState<ItemObject>();
     const [loading, setLoading] = useState<boolean>(true);
     const [disableDelete, setDisableDelete] = useState<boolean>(false);

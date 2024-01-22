@@ -4,12 +4,12 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import AddEditItemComponent, { ItemObject } from "../../components/AddEditItem";
 import { returnItem } from "@/app/utils/inventoryManager";
-import Router from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 
 export default function EditItemPage( {params}: any)
 {
-    const router = Router.useRouter();
+    const router = useRouter();
     const [item, setItem] = useState<ItemObject>();
     const [loading, setLoading] = useState<boolean>(true);
    
