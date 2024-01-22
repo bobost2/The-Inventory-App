@@ -3,8 +3,7 @@ import { InsertOneResult, MongoClient, ObjectId, WithId } from "mongodb";
 import { ErrorType, UserLoginDBRepsonse } from "../interfaces/authInterfaces";
 import { teamDetails } from "../interfaces/teamInterfaces";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
-import { FieldDropDown, ItemObject } from "../dashboard/newItem/page";
-import exp from "constants";
+import { FieldDropDown, ItemObject } from "../dashboard/components/AddEditItem";
 
 export async function checkIfUserExistsOnRegister(email:string, username:string) : Promise<ErrorType>
 {
@@ -305,6 +304,31 @@ export async function deleteItemDB(teamID:string, itemID:string):Promise<boolean
     const items = database.collection("items");
 
     const itemRes = await items.deleteOne({ _id: new ObjectId(itemID), teamID: new ObjectId(teamID) });
+
+    if(itemRes.acknowledged)
+    {
+        result = true;
+    }
+
+    await client.close();
+    return result;
+}
+
+export async function replaceItemDB(item:ItemObject):Promise<boolean>
+{
+    var result:boolean = false;
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const items = database.collection("items");
+
+    item.teamID = new ObjectId(item.teamID);
+    const _id = new ObjectId(item.itemID);
+
+    delete item.itemID;
+
+    const itemRes = await items.replaceOne({ _id: _id, teamID: item.teamID }, item);
 
     if(itemRes.acknowledged)
     {

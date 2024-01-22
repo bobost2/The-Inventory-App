@@ -3,7 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styles from './existingFieldComponent.module.css';
 import React from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { FieldObjectValue } from "../page";
+import { FieldObjectValue } from "./AddEditItem";
 import dayjs from "dayjs";
 
 type NewFieldComponentProps = {

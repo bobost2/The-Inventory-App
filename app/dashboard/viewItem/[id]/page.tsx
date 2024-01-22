@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { deleteItem, returnItem } from "@/app/utils/inventoryManager";
 import { useEffect, useState } from "react";
 import Router from "next/navigation";
-import { FieldObjectValue, ItemObject } from "../../newItem/page";
+import { FieldObjectValue, ItemObject } from "../../components/AddEditItem";
 import { Button, Chip, CircularProgress, Divider } from "@mui/material";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
@@ -19,6 +19,7 @@ import NumbersIcon from '@mui/icons-material/Numbers';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LanguageIcon from '@mui/icons-material/Language';
+import dayjs from "dayjs";
 
 export default function ViewItemPage({params}: any) {
     
@@ -118,11 +119,11 @@ export default function ViewItemPage({params}: any) {
                     );
     
                 case "date":
-                    var date = new Date(field.fieldValue.value1);
+                    var date = dayjs.unix(field.fieldValue.value1);
                     return (
                         <div key={index} className={styles.additionalParam}>
                             <DateRangeIcon style={{fontSize: '30px'}}/>
-                            <div><b>{field.fieldName}:</b> {date.toDateString()}</div>
+                            <div><b>{field.fieldName}:</b> {date.format("DD/MM/YYYY")}</div>
                         </div>
                     );
     

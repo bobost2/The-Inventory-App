@@ -2,10 +2,11 @@
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbar, GridValueGetterParams } from '@mui/x-data-grid';
 import styles from './page.module.css';
-import React, { use, useEffect, useState } from 'react';
-import { FieldDropDown } from '../newItem/page';
+import React, { useEffect, useState } from 'react';
+import { FieldDropDown } from '../components/AddEditItem';
 import { returnItems, returnTypes } from '@/app/utils/inventoryManager';
 import Router from 'next/navigation';
+import dayjs from 'dayjs';
 
 export default function SearchItemsPage() {
     
@@ -111,7 +112,7 @@ export default function SearchItemsPage() {
                                     break;
                                 
                                 case "date":
-                                    additionalFields[f.fieldName] = new Date(f.fieldValue.value1);
+                                    additionalFields[f.fieldName] = dayjs.unix(f.fieldValue.value1).toDate();
                                     break;
 
                                 case "linkedObject":
