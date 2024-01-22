@@ -73,7 +73,7 @@
     align-items: center;
 }
 
-.additionalParam > div,h3
+.iconParameter > div, .iconParameter > h3
 {
     margin-left: 10px;
 }

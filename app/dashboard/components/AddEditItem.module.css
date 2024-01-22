@@ -5,6 +5,26 @@
     align-items: center;
     justify-content: space-between;
     height: calc(100vh - 60px);
+
+    ::-webkit-scrollbar
+    {
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track
+    {
+        background: #0f2b0f;
+    }
+    
+    ::-webkit-scrollbar-thumb
+    {
+        background: #003913;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover
+    {
+        background: #003613;
+    }
 }
 
 .EnterTypeName
@@ -72,24 +92,4 @@
     {
         width: 220px;
     }
-}
-
-::-webkit-scrollbar
-{
-    width: 10px;
-}
-
-::-webkit-scrollbar-track
-{
-    background: #0f2b0f;
-}
-
-::-webkit-scrollbar-thumb
-{
-    background: #003913;
-}
-
-::-webkit-scrollbar-thumb:hover
-{
-    background: #003613;
 }
