@@ -6,3 +6,23 @@ body
   background: #051c00 !important;
   color: #c2ffaf !important;
 }
+
+::-webkit-scrollbar
+{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track
+{
+    background: #0f2b0f;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: #003913;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: #003613;
+}

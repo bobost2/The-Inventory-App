@@ -95,7 +95,7 @@
     color: #78a16b;
 }
 
-.clickableParam > div,h3
+.clickableParam > div, .clickableParam > h3
 {
     margin-left: 10px;
 }
@@ -137,24 +137,4 @@
     box-shadow: 0px -3px 3px 2px #0000004f;
     padding: 10px;
     height: 50px;
-}
-
-::-webkit-scrollbar
-{
-    width: 10px;
-}
-
-::-webkit-scrollbar-track
-{
-    background: #0f2b0f;
-}
-
-::-webkit-scrollbar-thumb
-{
-    background: #003913;
-}
-
-::-webkit-scrollbar-thumb:hover
-{
-    background: #003613;
 }
