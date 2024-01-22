@@ -3,7 +3,7 @@
 import { getServerSession } from "next-auth";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
 import { ObjectId } from "mongodb";
-import { createNewItemDB, createNewTypeDB, returnItemsDB, returnTypesDB, verifyUserID } from "./mongoManager";
+import { createNewItemDB, createNewTypeDB, returnItemDB, returnItemsDB, returnTypesDB, verifyUserID } from "./mongoManager";
 import { FieldDropDown, ItemObject } from "../dashboard/newItem/page";
 
 export async function createNewType(teamID:string, fieldName:string, fields:FieldObject[]):Promise<boolean>
@@ -52,4 +52,34 @@ export async function returnItems(teamID:string, typeName?:string):Promise<ItemO
         items = await returnItemsDB(teamID, typeName);
     }
     return items;
+}
+
+export async function returnItem(teamID:string, itemID:string):Promise<ItemObject | null>
+{
+    var item:ItemObject | null = null;
+    if(ObjectId.isValid(teamID) && ObjectId.isValid(itemID))
+    {
+        const itemRes = await returnItemDB(teamID, itemID);
+
+        if (itemRes)
+        {
+            item = {
+                itemID: itemID,
+                teamID: teamID,
+                itemName: itemRes.itemName,
+                itemType: itemRes.itemType,
+                itemQuantity: itemRes.itemQuantity,
+                itemBarcode: itemRes.itemBarcode,
+                itemLocation: itemRes.itemLocation,
+                itemAvailability: itemRes.itemAvailability,
+                itemUsedBy: itemRes.itemUsedBy,
+                itemUsedByObjectID: itemRes.itemUsedByObjectID,
+                itemBoxCondition: itemRes.itemBoxCondition,
+                itemBoxLocation: itemRes.itemBoxLocation,
+                itemDescription: itemRes.itemDescription,
+                fields: itemRes.fields
+            };
+        }
+    }
+    return item;
 }

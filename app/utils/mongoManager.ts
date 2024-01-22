@@ -280,3 +280,17 @@ export async function returnItemsDB(teamID:string, typeName?:string):Promise<Ite
     await client.close();
     return itemsArr;
 }
+
+export async function returnItemDB(teamID:string, itemID:string):Promise<ItemObject>
+{
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const items = database.collection("items");
+
+    const itemRes = await items.findOne({ _id: new ObjectId(itemID), teamID: new ObjectId(teamID) }) as WithId<ItemObject>;
+
+    await client.close();
+    return itemRes;
+}
