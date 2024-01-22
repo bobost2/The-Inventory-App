@@ -26,6 +26,7 @@ export type FieldObjectValue = {
 
 export type ItemObject = 
 {
+    itemID?: string;
     teamID: string | ObjectId;
     itemName: string;
     itemType: string;

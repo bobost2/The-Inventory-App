@@ -42,6 +42,10 @@ export default function NavBarComponent()
         {
             setTeamID(event.target.value as string);
             localStorage.setItem('currentTeamID', event.target.value as string);
+            
+            // We will need a full page reload, 
+            // because router.refresh() refreshes the page partially.
+            document.location.reload(); 
         }
     };
 

@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.15.0",
     "@mui/material": "^5.15.0",
     "@mui/material-nextjs": "^5.15.0",
+    "@mui/x-data-grid": "^6.19.1",
     "@mui/x-date-pickers": "^6.19.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",

@@ -1,5 +1,5 @@
 "use server";
-import { InsertOneResult, MongoClient, ObjectId } from "mongodb";
+import { InsertOneResult, MongoClient, ObjectId, WithId } from "mongodb";
 import { ErrorType, UserLoginDBRepsonse } from "../interfaces/authInterfaces";
 import { teamDetails } from "../interfaces/teamInterfaces";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
@@ -235,4 +235,48 @@ export async function createNewItemDB(item:ItemObject):Promise<boolean>
 
     await client.close();
     return itemRes.acknowledged;
+}
+
+export async function returnItemsDB(teamID:string, typeName?:string):Promise<ItemObject[]>
+{
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const items = database.collection("items");
+
+    var itemsRes:WithId<ItemObject>[];
+    
+    if (typeName) 
+    {  
+        itemsRes = await items.find({ teamID: new ObjectId(teamID), itemType: typeName }).toArray() as WithId<ItemObject>[];
+    }
+    else
+    {
+        itemsRes = await items.find({ teamID: new ObjectId(teamID) }).toArray() as WithId<ItemObject>[];
+    }
+
+    var itemsArr:ItemObject[] = [];
+    itemsRes.forEach(element => {
+        const item: ItemObject = {
+            itemID: element._id.toString(),
+            teamID: teamID,
+            itemName: element.itemName,
+            itemType: element.itemType,
+            itemQuantity: element.itemQuantity,
+            itemBarcode: element.itemBarcode,
+            itemLocation: element.itemLocation,
+            itemAvailability: element.itemAvailability,
+            itemUsedBy: element.itemUsedBy,
+            itemUsedByObjectID: element.itemUsedByObjectID,
+            itemBoxCondition: element.itemBoxCondition,
+            itemBoxLocation: element.itemBoxLocation,
+            itemDescription: element.itemDescription,
+            fields: element.fields
+        };
+        itemsArr.push(item);
+    });
+
+    await client.close();
+    return itemsArr;
 }
