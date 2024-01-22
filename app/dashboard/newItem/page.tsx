@@ -50,10 +50,10 @@ export default function NewItemPage()
     const [fieldsData, setFieldsData] = useState<FieldDropDown[]>([]);
     const [itemBarcode, setItemBarcode] = useState<string>("");
     const [itemLocation, setItemLocation] = useState<string>("");
-    const [itemAvailability, setItemAvailability] = useState<string>("");
+    const [itemAvailability, setItemAvailability] = useState<string>("free");
     const [itemUsedBy, setItemUsedBy] = useState<string>("");
     const [itemUsedByObjectID, setItemUsedByObjectID] = useState<string>("");
-    const [itemBoxCondition, setItemBoxCondition] = useState<string>("");
+    const [itemBoxCondition, setItemBoxCondition] = useState<string>("none");
     const [itemBoxLocation, setItemBoxLocation] = useState<string>("");
     const [itemDescription, setItemDescription] = useState<string>("");
     const [fields, setFields] = useState<FieldObjectValue[]>([]);
@@ -212,10 +212,10 @@ export default function NewItemPage()
                     <FormControl className={styles.MainFields} style={{marginRight: "20px", marginTop: "20px"}}>
                         <InputLabel>Box condition</InputLabel>
                         <Select label="Box condition" value={itemBoxCondition} onChange={handleBoxConditionChange} >
-                            <MenuItem value={"new"}>New</MenuItem>
-                            <MenuItem value={"lightly"}>Lightly used</MenuItem>
-                            <MenuItem value={"used"}>Used</MenuItem>
-                            <MenuItem value={"damaged"}>Damaged</MenuItem>
+                            <MenuItem value={"likeNew"}>Like new</MenuItem>
+                            <MenuItem value={"lightlyDamaged"}>Lightly damaged</MenuItem>
+                            <MenuItem value={"moderatelyDamaged"}>Moderately damaged</MenuItem>
+                            <MenuItem value={"heavilyDamaged"}>Heavily damaged</MenuItem>
                             <MenuItem value={"none"}>None</MenuItem>
                         </Select>
                     </FormControl>

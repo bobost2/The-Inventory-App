@@ -3,7 +3,7 @@
 import { getServerSession } from "next-auth";
 import { FieldObject } from "../dashboard/newType/components/newFieldComponent";
 import { ObjectId } from "mongodb";
-import { createNewItemDB, createNewTypeDB, returnItemDB, returnItemsDB, returnTypesDB, verifyUserID } from "./mongoManager";
+import { createNewItemDB, createNewTypeDB, deleteItemDB, returnItemDB, returnItemsDB, returnTypesDB, verifyUserID } from "./mongoManager";
 import { FieldDropDown, ItemObject } from "../dashboard/newItem/page";
 
 export async function createNewType(teamID:string, fieldName:string, fields:FieldObject[]):Promise<boolean>
@@ -82,4 +82,14 @@ export async function returnItem(teamID:string, itemID:string):Promise<ItemObjec
         }
     }
     return item;
+}
+
+export async function deleteItem(teamID:string, itemID:string):Promise<boolean>
+{
+    var success = false;
+    if(ObjectId.isValid(teamID) && ObjectId.isValid(itemID))
+    {
+        success = await deleteItemDB(teamID, itemID);
+    }
+    return success;
 }

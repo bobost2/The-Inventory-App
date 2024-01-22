@@ -294,3 +294,23 @@ export async function returnItemDB(teamID:string, itemID:string):Promise<ItemObj
     await client.close();
     return itemRes;
 }
+
+export async function deleteItemDB(teamID:string, itemID:string):Promise<boolean>
+{
+    var result:boolean = false;
+    var connectionString:string = process.env.MONGO_CONNECTION_STRING || "";
+    const client = new MongoClient(connectionString);
+
+    const database = client.db("InventoryDB");
+    const items = database.collection("items");
+
+    const itemRes = await items.deleteOne({ _id: new ObjectId(itemID), teamID: new ObjectId(teamID) });
+
+    if(itemRes.acknowledged)
+    {
+        result = true;
+    }
+
+    await client.close();
+    return result;
+}

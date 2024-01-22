@@ -20,5 +20,141 @@
 
 .itemPage
 {
-    
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    justify-content: space-between;
+}
+
+.itemPageMainInfo
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.itemPageMainInfo > div > h1
+{
+    margin: 0;
+}
+
+.itemPageMainInfo > div > h3
+{
+    margin: 0;
+}
+
+.itemPageInfo 
+{
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemPageInfo > div
+{
+    margin: 0 5%;
+}
+
+.iconParameter
+{
+    display: flex;
+    align-items: center;
+}
+
+.iconParameter > div,h3
+{
+    margin-left: 10px;
+}
+
+.additionalParam
+{
+    display: flex;
+    align-items: center;
+}
+
+.additionalParam > div,h3
+{
+    margin-left: 10px;
+}
+
+.clickableParam
+{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}
+
+.clickableParam:hover
+{
+    color: #9fd28f;
+}
+
+.clickableParam:active
+{
+    color: #78a16b;
+}
+
+.clickableParam > div,h3
+{
+    margin-left: 10px;
+}
+
+.additionalFields
+{
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.additionalFields > div > div
+{
+    float: left;
+    margin: 0 0 20px 5%;
+}
+
+@media (max-width: 600px)
+{
+    .itemPageInfo
+    {
+        flex-direction: column;
+    }
+
+    .itemPageInfo > div
+    {
+        margin: 10px 0;
+    }
+}
+
+.BottomButtonBox
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003913;
+    box-shadow: 0px -3px 3px 2px #0000004f;
+    padding: 10px;
+    height: 50px;
+}
+
+::-webkit-scrollbar
+{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track
+{
+    background: #0f2b0f;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: #003913;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: #003613;
 }
