@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Demo
+To test the functionality of the app you can visit [this link](https://the-inventory-app.bobost.net/). Keep in mind that this demo can get shut down in the near future, since it's currenly self-hosted.
 
-## Getting Started
+## Installation guide
 
-First, run the development server:
+Firstly, you will need a database. This project uses MongoDB and I recommend either self-hosting a MongoDB instance or use the free tier database from their [official webiste](657a197c5136d37474e4999f).
+
+After that create an .env file in the root directory containing the variables `MONGO_CONNECTION_STRING`, `NEXTAUTH_SECRET` and `NEXTAUTH_URL` (use `http://localhost:3000` during development). 
+<br><br>The file should look something like this:
+```
+MONGO_CONNECTION_STRING=<MongoConnectionString>
+NEXTAUTH_SECRET=<RandomlyGeneratedPassword>
+NEXTAUTH_URL=<WebsiteURL>
+```
+<br>
+Next, install the missing modules via npm:
 
 ```bash
-npm run dev
+npm i
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
+After that for development you can use this command:
+`npm run dev`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you want to deploy it somewhere, you will have to build the project and then run it by using these commands:
+```bash
+# Build the project
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Run the project
+npm run start
+```
