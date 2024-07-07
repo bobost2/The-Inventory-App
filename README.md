@@ -1,5 +1,6 @@
 ## Demo
-To test the functionality of the app you can visit [this link](https://the-inventory-app.bobost.net/). Keep in mind that this demo can get shut down in the near future, since it's currenly self-hosted.
+~~To test the functionality of the app you can visit [this link](). Keep in mind that this demo can get shut down in the near future, since it's currenly self-hosted.~~
+The demo page has been shutdown.
 
 ## Installation guide
 
