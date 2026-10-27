@@ -1,6 +1,6 @@
 "use client";
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbar, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import styles from './page.module.css';
 import React, { useEffect, useState } from 'react';
 import { FieldDropDown } from '../components/AddEditItem';
@@ -204,7 +204,7 @@ export default function SearchItemsPage() {
                         },
                     }}
                     pageSizeOptions={[5, 10, 15]}
-                    slots={{ toolbar: GridToolbar }}
+                    showToolbar
                     slotProps={{
                         toolbar: {
                           showQuickFilter: true,

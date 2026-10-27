@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import { deleteItem, returnItem } from "@/app/utils/inventoryManager";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { FieldObjectValue, ItemObject } from "../../components/AddEditItem";
 import { Button, Chip, CircularProgress, Divider } from "@mui/material";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
@@ -21,20 +21,21 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LanguageIcon from '@mui/icons-material/Language';
 import dayjs from "dayjs";
 
-export default function ViewItemPage({params}: any) {
+export default function ViewItemPage() {
     
     const router = useRouter();
     const [item, setItem] = useState<ItemObject>();
     const [loading, setLoading] = useState<boolean>(true);
     const [disableDelete, setDisableDelete] = useState<boolean>(false);
+    const { id: itemID } = useParams<{ id: string }>();
 
     async function FetchItem()
     {
         const teamID = localStorage.getItem("currentTeamID");
-        
+
         if (teamID && teamID?.length !== 0)
         {
-            const res = await returnItem(teamID, params.id);
+            const res = await returnItem(teamID, itemID);
             if(!res)
             {
                 router.back(); // no time for 404 page, just go back

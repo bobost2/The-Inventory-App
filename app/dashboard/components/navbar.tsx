@@ -7,9 +7,9 @@ import CreateJoinTeamComponent from "./createJoinTeam";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
 import GroupsIcon from '@mui/icons-material/Groups';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Alert, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Skeleton, Snackbar, Tooltip } from "@mui/material";
+import { Alert, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Skeleton, Snackbar, SnackbarCloseReason, Tooltip } from "@mui/material";
 import { getUserTeams } from "@/app/utils/teamManager";
 import { teamDetails } from "@/app/interfaces/teamInterfaces";
 
@@ -24,12 +24,14 @@ export default function NavBarComponent()
     const [openTeamLock, setOpenTeamLock] = React.useState(false);
     const [teamIDs, setTeamIDs] = React.useState<teamDetails[]>([]);
     const [teamsLoading, setTeamsLoading] = React.useState(true);
-
-    const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
-        }
     
+    const handleSnackbarClose = (_event: React.SyntheticEvent | Event | null, reason: SnackbarCloseReason) => {
+        if (reason !== 'clickaway') {
+            setOpenAlert(false);
+        }
+    };
+
+    const handleAlertClose = (_event: React.SyntheticEvent) => {
         setOpenAlert(false);
     };
 
@@ -162,10 +164,10 @@ export default function NavBarComponent()
             <CreateJoinTeamComponent openPopup={openTeamAdd} setOpenPopup={setOpenTeamAdd} 
                 lockClose={openTeamLock} setLockClose={setOpenTeamLock} refreshTeams={getTeams} />
 
-            <Snackbar open={openAlert} autoHideDuration={2000} onClose={handleCloseAlert} 
+            <Snackbar open={openAlert} autoHideDuration={2000} onClose={handleSnackbarClose} 
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%' }}>
                     Team ID copied to clipboard!
                 </Alert>
             </Snackbar>

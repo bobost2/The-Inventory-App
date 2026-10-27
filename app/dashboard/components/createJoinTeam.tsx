@@ -1,8 +1,8 @@
 'use client';
 
-import React, { ReactComponentElement } from "react";
+import React from "react";
 import styles from './createJoinTeam.module.css'
-import { Alert, Button, Dialog, IconButton, Snackbar, TextField } from "@mui/material";
+import { Alert, Button, Dialog, IconButton, Snackbar, SnackbarCloseReason, TextField } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -35,11 +35,13 @@ export default function CreateJoinTeamComponent(props:CreateJoinTeamProps)
     const [openAlert, setOpenAlert] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('');
 
-    const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
+    const handleSnackbarClose = (_event: React.SyntheticEvent | Event | null, reason: SnackbarCloseReason) => {
+        if (reason !== 'clickaway') {
+            setOpenAlert(false);
         }
-    
+    };
+
+    const handleAlertClose = (_event: React.SyntheticEvent) => {
         setOpenAlert(false);
     };
 
@@ -212,10 +214,10 @@ export default function CreateJoinTeamComponent(props:CreateJoinTeamProps)
                     </div>
                 </div>
             </Dialog>
-            <Snackbar open={openAlert} autoHideDuration={4000} onClose={handleCloseAlert} 
+            <Snackbar open={openAlert} autoHideDuration={4000} onClose={handleSnackbarClose} 
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
                     {alertMessage}
                 </Alert>
             </Snackbar>

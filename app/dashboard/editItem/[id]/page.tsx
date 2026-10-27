@@ -4,14 +4,15 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import AddEditItemComponent, { ItemObject } from "../../components/AddEditItem";
 import { returnItem } from "@/app/utils/inventoryManager";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 
-export default function EditItemPage( {params}: any)
+export default function EditItemPage()
 {
     const router = useRouter();
     const [item, setItem] = useState<ItemObject>();
     const [loading, setLoading] = useState<boolean>(true);
+    const { id: itemID } = useParams<{ id: string }>();
    
     async function FetchItem()
     {
@@ -19,7 +20,7 @@ export default function EditItemPage( {params}: any)
         
         if (teamID && teamID?.length !== 0)
         {
-            const res = await returnItem(teamID, params.id);
+            const res = await returnItem(teamID, itemID);
             if(!res)
             {
                 router.back(); // no time for 404 page, just go back

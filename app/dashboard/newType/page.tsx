@@ -1,7 +1,7 @@
 "use client";
-import { Alert, Button, IconButton, Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Alert, Button, IconButton, Paper, Snackbar, SnackbarCloseReason, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import styles from './page.module.css';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutlined';
 import NewFieldComponent, { FieldObject } from './components/newFieldComponent';
 import { useState } from 'react';
 import React from 'react';
@@ -19,11 +19,13 @@ export default function NewTypePage()
     const [openAlert, setOpenAlert] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('');
 
-    const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
+    const handleSnackbarClose = (_event: React.SyntheticEvent | Event | null, reason: SnackbarCloseReason) => {
+        if (reason !== 'clickaway') {
+            setOpenAlert(false);
         }
-    
+    };
+
+    const handleAlertClose = (_event: React.SyntheticEvent) => {
         setOpenAlert(false);
     };
 
@@ -126,10 +128,10 @@ export default function NewTypePage()
                 </Button>
             </div>
 
-            <Snackbar open={openAlert} autoHideDuration={4000} onClose={handleCloseAlert} 
+            <Snackbar open={openAlert} autoHideDuration={4000} onClose={handleSnackbarClose} 
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
                     {alertMessage}
                 </Alert>
             </Snackbar>
